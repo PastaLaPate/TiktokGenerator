@@ -23,7 +23,7 @@ import nltk  # we'll use this to split into sentences
 
 def selectMode():
     mode = input('Mode ? (render,script) ').lower()
-    if mode == "render" or mode == "script":
+    if mode == "render" or mode == "script" or mode == "auto":
         return mode
     else:
         return selectMode()
