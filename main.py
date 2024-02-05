@@ -81,6 +81,12 @@ def getAudios(content, audiosPath):
         i += 1
     return clips
 
+def generateAudio(content, path, speaker="v2/en_speaker_0"):
+    semantic_tokens = generate_text_semantic(content, history_prompt=speaker, temp=0.6, min_eos_p=0.05)
+    audio_array = semantic_to_waveform(semantic_tokens, history_prompt=speaker)
+    write_wav(path, SAMPLE_RATE, audio_array)
+
+
 if __name__ == '__main__':
     print("Welcome to TiktokGenerator")
     title = input('Title ? ')
@@ -103,16 +109,14 @@ if __name__ == '__main__':
         content = content.replace("\n", " ").replace("*", " ").strip()
         audiosPath = f'./{title}/audios'
         videoPath = f'./{title}/video/export.mp4'
-        if not os.path.exists(audiosPath):
-            os.makedirs(audiosPath, exist_ok=True)
-            sentences = nltk.sent_tokenize(content)
-            speaker = "v2/en_speaker_0"
-            part = 0
-            for sentence in sentences:
-                semantic_tokens = generate_text_semantic(sentence, history_prompt=speaker, temp=0.6, min_eos_p=0.05)
-                audio_array = semantic_to_waveform(semantic_tokens, history_prompt=speaker)
-                write_wav(f"{audiosPath}/audio-{part}.wav", SAMPLE_RATE, audio_array)
-                part += 1
+        os.makedirs(audiosPath, exist_ok=True)
+        sentences = nltk.sent_tokenize(content)
+        speaker = "v2/en_speaker_0"
+        part = 0
+        for sentence in sentences:
+            if not os.path.exists(f"{audiosPath}/audio-{part}.wav"):
+                generateAudio(sentence, f"{audiosPath}/audio-{part}.wav")
+            part += 1
         os.makedirs(f"./{title}/video", exist_ok=True)
         video = CompositeVideoClip([
             getBackground(content, audiosPath),
