@@ -2,4 +2,4 @@
 
 ## Installation
 ### Clone repo
-ˋˋgit clone https://github.com/PastaLaPate/TiktokGenerator.gitˋˋ
+ˋgit clone https://github.com/PastaLaPate/TiktokGenerator.git`
