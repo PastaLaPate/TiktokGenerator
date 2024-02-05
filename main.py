@@ -141,7 +141,7 @@ def script(title, prompt):
         f.write(resp)
 
 def auto():
-    title = f"{len(os.listdir("./"))}-facts"
+    title = f"{len(os.listdir('./'))}-facts"
     os.makedirs(title, exist_ok=True)
     script(title, "5 random facts")
     render(title)
