@@ -124,7 +124,7 @@ def render(title):
     video = speedx(video, 1)
     video.write_videofile(videoPath, fps=30, preset="ultrafast")
 
-def script(prompt):
+def script(title, prompt):
     resp = g4f.ChatCompletion.create(
         model="gpt-3.5",
         provider=g4f.Provider.ChatBase,
@@ -143,7 +143,7 @@ def script(prompt):
 def auto():
     title = f"{len(os.listdir("./"))}-facts"
     os.makedirs(title, exist_ok=True)
-    script("5 random facts")
+    script(title, "5 random facts")
     render(title)
     auto()
 
